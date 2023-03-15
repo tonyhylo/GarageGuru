@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
-from .models import Post
+from .models import Post, Comment
 from .forms import CommentForm
 
 
@@ -50,3 +50,11 @@ def add_comment(request, post_id):
     new_comment.post_id = post_id
     new_comment.save()
   return redirect('detail', post_id=post_id)
+
+
+def delete_comment(request, post_id, comment_id):
+  comment = Comment.objects.get(id=comment_id)
+  comment.delete()
+  return redirect('detail', post_id=post_id)
+
+
