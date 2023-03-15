@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Post
 from django.urls import reverse
 from .models import Post
+from .forms import CommentForm
 
 
 def home(request):
@@ -19,7 +19,8 @@ def profile(request):
 
 def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
-  return render(request, 'posts/detail.html', { 'post': post })
+  comment_form = CommentForm()
+  return render(request, 'posts/detail.html', { 'post': post, 'comment_form': comment_form })
 
 class PostCreate(CreateView):
   model = Post
@@ -40,3 +41,12 @@ class PostUpdate(UpdateView):
 class PostDelete(DeleteView):
   model = Post
   success_url = '/'
+
+
+def add_comment(request, post_id):
+  form = CommentForm(request.POST)
+  if form.is_valid():
+    new_comment = form.save(commit=False)
+    new_comment.post_id = post_id
+    new_comment.save()
+  return redirect('detail', post_id=post_id)
