@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Post Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ post.name }}</span>
+    <p>Description: {{ post.description }}</p>
+  </div>
+  <div class="card-action">
+    <a href="{% url 'posts_update' post.id %}">Edit</a>
+    <a href="{% url 'posts_delete' post.id %}">Delete</a>
+  </div>
+</div>
+
+{% endblock %}
