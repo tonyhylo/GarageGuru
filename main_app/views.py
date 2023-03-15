@@ -4,7 +4,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 import uuid
 import boto3
-from .models import Post, Photo
+from .models import Post, Photo, Comment
+from .forms import CommentForm
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
 BUCKET = 'garageguru57'
@@ -22,7 +23,8 @@ def profile(request):
 
 def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
-  return render(request, 'posts/detail.html', { 'post': post })
+  comment_form = CommentForm()
+  return render(request, 'posts/detail.html', { 'post': post, 'comment_form': comment_form })
 
 def add_photo(request, post_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -57,3 +59,20 @@ class PostUpdate(UpdateView):
 class PostDelete(DeleteView):
   model = Post
   success_url = '/'
+
+
+def add_comment(request, post_id):
+  form = CommentForm(request.POST)
+  if form.is_valid():
+    new_comment = form.save(commit=False)
+    new_comment.post_id = post_id
+    new_comment.save()
+  return redirect('detail', post_id=post_id)
+
+
+def delete_comment(request, post_id, comment_id):
+  comment = Comment.objects.get(id=comment_id)
+  comment.delete()
+  return redirect('detail', post_id=post_id)
+
+

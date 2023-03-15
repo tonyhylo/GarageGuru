@@ -9,3 +9,10 @@ class Photo(models.Model):
 
     def __str__(self):
         return f"Photo for post_id: {self.post_id} @{self.url}"
+
+class Comment(models.Model):
+    comment = models.TextField(max_length=10000)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+
+
