@@ -1,1 +1,1 @@
-web: gunicorn garageguru.wsgi
+web: gunicorn GarageGuru.wsgi

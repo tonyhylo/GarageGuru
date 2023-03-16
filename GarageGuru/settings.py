@@ -134,6 +134,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configure Django App for Heroku.
 import django_heroku
 django_heroku.settings(locals())
-
-WSGI_APPLICATION = 'garageguru.wsgi.application'
-# catcollector is the project name
