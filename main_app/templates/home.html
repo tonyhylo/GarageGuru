@@ -15,7 +15,12 @@
                     <span class="card-title">username goes here</span>
                     <div class="card-image">
                         <img src="">
-                        <p>image goes here</p>
+                        <!-- <p>image goes here</p> -->
+                        {% for photo in post.photo_set.all %}
+                          <img class="responsive-img card-panel" src="{{photo.url}}">
+                        {% empty %}
+                          <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+                        {% endfor %}
                     </div>
                     <div class="card-content">
                         <p>Description: {{ post.description }}</p>
