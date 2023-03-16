@@ -39,12 +39,10 @@ def add_photo(request, post_id):
             print('An error occurred uploading file to S3')
     return redirect('detail', post_id=post_id)
 
-def delete_photo(request, post_id):
-   photo = Photo
+def delete_photo(request, post_id, photo_id):
+   photo = Photo.objects.get(id=photo_id)
    photo.delete()
    return redirect('detail', post_id=post_id)
-
-
 
 class PostCreate(CreateView):
   model = Post
