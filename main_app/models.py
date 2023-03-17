@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Post(models.Model):
     description = models.TextField(max_length=10000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
 class Photo(models.Model):
     url = models.CharField(max_length=200)
