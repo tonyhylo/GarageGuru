@@ -22,9 +22,9 @@
 
           <ul class="right">
           <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="{% url 'posts_create' %}">Add Post</a></li>
+         
           {% if user.is_authenticated %}           
-            
+            <li><a href="{% url 'posts_create' %}">Add Post</a></li>
             <li><a href="/messages">Messages</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
