@@ -13,5 +13,6 @@ urlpatterns = [
     # path('posts/<int:post_id>/delete_photo/', views.delete_photo, name='delete_photo'),
     path('posts/<int:post_id>/delete_photo/<int:photo_id>', views.delete_photo, name='delete_photo'),
     path('posts/<int:post_id>/add_comment/', views.add_comment, name='add_comment'),
-    path('posts/<int:post_id>/commentDelete/<int:comment_id>', views.delete_comment, name='comment_delete')
+    path('posts/<int:post_id>/commentDelete/<int:comment_id>', views.delete_comment, name='comment_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
