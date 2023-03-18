@@ -19,10 +19,21 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;GarageGuru</a></li>
         </ul>
         <ul class="right">
-          <li><a href="/">Home</a></li>
+
+          <ul class="right">
+          <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'posts_create' %}">Add Post</a></li>
-          <li><a href="/messages">Messages</a></li>
-          <li><a href="/profile">Profile</a></li>
+          {% if user.is_authenticated %}           
+            
+            <li><a href="/messages">Messages</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+          {% else %}
+           <li><a href="{% url 'login' %}">Log In</a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+          </ul>
+
         </ul>
       </div>
     </nav>
