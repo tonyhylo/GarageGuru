@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
 
-from .models import Post, Photo, Comment
+from .models import Post, Photo, Comment, Like
 from .forms import CommentForm
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
@@ -124,4 +124,45 @@ def delete_comment(request, post_id, comment_id):
   comment.delete()
   return redirect('detail', post_id=post_id)
 
+@login_required
+def add_like(request, post_id, user_id):
+  like_list = []
+  idx = 0
+  for x in Like.objects.filter(post_id=post_id):
+    like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
+    idx += 1
 
+  if user_id in like_list:
+    Like.objects.filter(post_id=post_id, user_id=user_id).delete()
+  else:
+    new_like = Like()
+    new_like.post_id = post_id
+    new_like.user_id = user_id
+    new_like.save()
+
+  return redirect('home')
+
+def add_like_detail(request, post_id, user_id):
+  like_list = []
+  idx = 0
+  for x in Like.objects.filter(post_id=post_id):
+    like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
+    idx += 1
+
+  if user_id in like_list:
+    Like.objects.filter(post_id=post_id, user_id=user_id).delete()
+  else:
+    new_like = Like()
+    new_like.post_id = post_id
+    new_like.user_id = user_id
+    new_like.save()
+
+  return redirect('detail', post_id=post_id)
+
+
+
+def likes_detail(request, post_id):
+  post = Post.objects.get(id=post_id)
+  likes = Like.like_list_generator(post_id)
+
+  return render(request, 'likes/detail.html', { 'post': post, 'likes': likes })
