@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 import uuid
 import boto3
 
-from .models import Post, Photo, Comment
+from .models import Post, Photo, Comment, Like, User, UserDescription
 from .forms import CommentForm
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
@@ -24,7 +24,6 @@ BUCKET = 'garageguru57'
 def home(request):
   posts = Post.objects.all()
   return render(request, 'home.html', { 'posts': posts })
-  # return render(request, 'home.html')
 
 
 @login_required
@@ -33,9 +32,11 @@ def messages(request):
 
 
 @login_required
-def profile(request):
-  posts = Post.objects.filter(user=request.user)
-  return render(request, 'profile.html', {'posts': posts})
+def profile(request, user_id):
+  posts = Post.objects.filter(user=user_id)
+  user_profile = User.objects.filter(id = user_id).values()[0]
+  bio = UserDescription.objects.filter(user_id=user_id).values()[0]
+  return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio})
 
 
 @login_required
@@ -181,4 +182,73 @@ def delete_comment(request, post_id, comment_id):
   comment.delete()
   return redirect('detail', post_id=post_id)
 
+@login_required
+def add_like(request, post_id, user_id):
+  like_list = []
+  idx = 0
+  for x in Like.objects.filter(post_id=post_id):
+    like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
+    idx += 1
 
+  if user_id in like_list:
+    Like.objects.filter(post_id=post_id, user_id=user_id).delete()
+  else:
+    new_like = Like()
+    new_like.post_id = post_id
+    new_like.user_id = user_id
+    new_like.save()
+
+  return redirect('home')
+
+def add_like_detail(request, post_id, user_id):
+  like_list = []
+  idx = 0
+  for x in Like.objects.filter(post_id=post_id):
+    like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
+    idx += 1
+
+  if user_id in like_list:
+    Like.objects.filter(post_id=post_id, user_id=user_id).delete()
+  else:
+    new_like = Like()
+    new_like.post_id = post_id
+    new_like.user_id = user_id
+    new_like.save()
+
+  return redirect('detail', post_id=post_id)
+
+def likes_detail(request, post_id):
+  post = Post.objects.get(id=post_id)
+
+  return render(request, 'likes/detail.html', { 'post': post })
+
+
+def username_update(request, user_id):
+  return render(request, 'main_app/username_form.html')
+
+def username_updated(request, user_id):
+  this_user = User.objects.get(id=user_id)
+  this_user.username = request.POST['username']
+  for user in User.objects.values():
+    if user['username'] == request.POST['username']:
+      return redirect('username_update', user_id=user_id)
+  this_user.save()
+  return redirect('profile', user_id=user_id)
+
+
+def bio_update(request, user_id):
+  return render(request, 'main_app/bio_form.html')
+
+def bio_updated(request, user_id):
+  if not UserDescription.objects.filter(user_id=user_id).exists():
+      this_user = UserDescription(description=request.POST['description'], user_id=user_id)
+      this_user.save()
+      return redirect('profile', user_id=user_id)
+  else:
+    this_user = UserDescription.objects.get(user_id=user_id)
+    this_user.description = request.POST['description']
+    this_user.save()
+    return redirect('profile', user_id=user_id)
+
+def user_photo_update(request, user_id):
+  pass
