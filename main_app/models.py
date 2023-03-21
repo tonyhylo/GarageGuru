@@ -53,3 +53,23 @@ class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def like_list_generator (post_id):
+        like_list = []
+        idx = 0
+        for x in Like.objects.filter(post_id=post_id):
+            like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
+            idx += 1
+        return like_list
+
+class Message(models.Model):
+    sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='sent_messages')
+    recipient = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='received_messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Message from {self.sender} to {self.recipient}'
+   
+

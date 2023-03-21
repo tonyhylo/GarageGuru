@@ -1,3 +1,5 @@
+from django.shortcuts import render, redirect
+from .models import Message
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,6 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 import uuid
 import boto3
@@ -107,6 +110,24 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
 class PostDelete(LoginRequiredMixin, DeleteView):
   model = Post
   success_url = '/'
+
+
+@login_required
+def messages(request):
+    received_messages = Message.objects.filter(recipient=request.user)
+    return render(request, 'messages.html', {'messages': received_messages})
+
+
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        recipient = User.objects.get(username=request.POST['recipient'])
+        content = request.POST['content']
+        message = Message(sender=request.user,
+                          recipient=recipient, content=content)
+        message.save()
+        return redirect('messages')
+    return render(request, 'send_message.html')
 
 
 @login_required
