@@ -1,3 +1,5 @@
+from django.shortcuts import render
+from django.contrib import messages as django_messages
 from django.shortcuts import render, redirect
 from .models import Message
 from django.shortcuts import render, redirect 
@@ -65,6 +67,15 @@ def delete_photo(request, post_id, photo_id):
    return redirect('detail', post_id=post_id)
 
 
+def search_by_hashtag(request, hashtag):
+    posts = Post.objects.filter(description__icontains=f'#{hashtag}')
+
+    context = {
+        'hashtag': hashtag,
+        'posts': posts,
+    }
+    return render(request, 'search_results.html', context)
+
 def signup(request):
   error_message = ''
   if request.method == 'POST':
@@ -117,17 +128,42 @@ def messages(request):
     return render(request, 'messages.html', {'messages': received_messages})
 
 
+# @login_required
+# def send_message(request):
+#     if request.method == 'POST':
+#         recipient = User.objects.get(username=request.POST['recipient'])
+#         content = request.POST['content']
+#         message = Message(sender=request.user,
+#                           recipient=recipient, content=content)
+#         message.save()
+#         return redirect('messages')
+#     return render(request, 'send_message.html')
+
+
 @login_required
 def send_message(request):
     if request.method == 'POST':
-        recipient = User.objects.get(username=request.POST['recipient'])
+        recipient_username = request.POST['recipient']
         content = request.POST['content']
+
+        # Check if recipient exists in the database
+        try:
+            recipient = User.objects.get(username=recipient_username)
+        except User.DoesNotExist:
+            # Handle case where recipient does not exist
+            django_messages.error(
+                request, f'User with username {recipient_username} does not exist.')
+            return redirect('send_message')
+
+        # Create new Message object
         message = Message(sender=request.user,
                           recipient=recipient, content=content)
         message.save()
+
+        # Redirect to success page or show success message
+        django_messages.success(request, 'Message sent successfully!')
         return redirect('messages')
     return render(request, 'send_message.html')
-
 
 @login_required
 def add_comment(request, post_id):

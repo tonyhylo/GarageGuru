@@ -16,4 +16,5 @@ urlpatterns = [
     path('posts/<int:post_id>/commentDelete/<int:comment_id>', views.delete_comment, name='comment_delete'),
     path('accounts/signup/', views.signup, name='signup'),
     path('send_message/', views.send_message, name='send_message'),   
+    path('search/<str:hashtag>/', views.search_by_hashtag, name='search_by_hashtag'),
 ]
