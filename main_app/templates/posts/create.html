@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Add A Post</h1>
+<form action="{% url 'posts_create' %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit" class="btn"/>
+</form>
+
+<!-- <form action="" method="post">
+  <input type="hidden" name="csrfmiddlewaretoken" value="bth2dMaIn8b3hnbdvRkqmXmQeiH3eVtbEZ8Fr5VWH4yztOFYzQa0mESwhrHu6BWn">
+  <table>
+    <tbody><tr>
+  <th><label for="id_description">Description:</label></th>
+  <td>
+    
+    <textarea name="description" cols="40" rows="10" maxlength="10000" required="" id="id_description"></textarea>
+    
+    
+      
+    
+  </td>
+</tr>
+  </tbody></table>
+  <input type="submit" value="Submit!" class="btn">
+</form> -->
+
+{% endblock %}

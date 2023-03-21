@@ -8,7 +8,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import UserManager
+from .models import PostForm
 
 import uuid
 import boto3
@@ -33,7 +34,7 @@ def messages(request):
 def profile(request, user_id):
   posts = Post.objects.filter(user=user_id)
   user_profile = User.objects.filter(id = user_id).values()[0]
-  bio = UserDescription.objects.filter(user_id=user_id).values()[0]
+  bio = UserDescription.objects.filter(user_id=user_id).values()
   return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio})
 
 
@@ -86,21 +87,41 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-class PostCreate(LoginRequiredMixin, CreateView):
-  model = Post
-  fields = ['description']
-  success_url = '/'
+# class PostCreate(LoginRequiredMixin, CreateView):
+#   model = Post
+#   fields = ['description']
+#   success_url = '/'
 
-  def __str__(self):
-    return self.name
+#   def __str__(self):
+#     return self.name
   
-  def form_valid(self, form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
+#   def form_valid(self, form):
+#     form.instance.user = self.request.user
+#     return super().form_valid(form)
     
-  def get_absolute_url(self):
-    return reverse('detail', kwargs={'post_id': self.id})
+#   def get_absolute_url(self):
+#     return reverse('detail', kwargs={'post_id': self.id})
 
+# def posts_create(request, post_id):
+#   post_id = Post.objects.get(id=post_id)
+#   post_form = forms.PostForm(request.POST)
+#   post = post_form.save()
+#   return render(request, "home.html", {'post' : post_id})
+
+def posts_create(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = PostForm(request.POST)
+    if form.is_valid():
+      post = form.save(commit=False)
+      post.user = request.user
+      form.save()
+      return redirect('home')
+    else:
+      error_message = 'Invalid new post'
+  form = PostForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'posts/create.html', context)
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
   model = Post

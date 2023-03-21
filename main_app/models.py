@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from datetime import date
 from django.contrib.auth.models import User
+from django import forms
 
 class UserDescription(models.Model):
     description = models.TextField(max_length=10000, blank=True, default='No User Bio')
@@ -18,6 +19,7 @@ class UserPhoto(models.Model):
 class Post(models.Model):
     description = models.TextField(max_length=10000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def user_like_list (post_id):
         user_list = []
         idx = 0
@@ -33,6 +35,12 @@ class Post(models.Model):
             like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
             idx += 1
         return like_list
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post 
+        fields = ["description"]
+
 
 
 
