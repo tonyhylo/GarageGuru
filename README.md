@@ -99,7 +99,7 @@ From Project Planning, problems we aimed to tackle, to proposed features, find t
 
 - <img src="https://www.gstatic.com/images/branding/product/2x/slides_48dp.png" alt="Google Slides Logo" width="24" height="24"> [Google Slides](https://docs.google.com/presentation/d/1vOPjLkm-DEMDDdxAP7kRwXY2AeiEc97auopC-3YfSag/edit#slide=id.p)
 - <img src="https://cdn.iconscout.com/icon/free/png-256/trello-6-569395.png" alt="Trello Logo" width="24" height="24"> [Trello Board](https://trello.com/b/l8ycCa37/ga-sei-project-3-garageguru)
-- <img src="https://assets.twrd.nl/heroku.png" alt="Heroku Logo" width="62" height="24"> - [Heroku App](https://www.garageguru.herokuapp.com/)
+- <img src="https://assets.twrd.nl/heroku.png" alt="Heroku Logo" width="62" height="24"> - [Heroku App](http://garageguru.herokuapp.com/)
 
 
 ### Next Steps 🚀:
