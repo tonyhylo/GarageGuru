@@ -1,7 +1,7 @@
 #search-form {
   position: absolute;
   top: 60%;
-  left: 45%;
+  left: 49%;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
@@ -39,6 +39,18 @@
   color: darkgrey;
 }
 
+.dropdown-content {
+  top: 64px !important;
+  width: 175px !important;
+}
+
+.dropdown-content li>a {
+  color: rgb(0, 123, 255);
+}
+
+.dropdown-content li>a:hover {
+  background-color: transparent;
+}
 .nav-wrapper {
   position: relative;
   display: flex;
@@ -71,5 +83,3 @@ a {
   padding: 0;
 
 }
-
-  
