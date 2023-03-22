@@ -35,6 +35,8 @@ class Post(models.Model):
             like_list.append(Like.objects.filter(post_id=post_id).values("user_id")[idx]['user_id'])
             idx += 1
         return like_list
+    class Meta:
+        ordering = ['-description']
 
 class PostForm(forms.ModelForm):
     class Meta:

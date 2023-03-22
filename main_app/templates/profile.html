@@ -17,7 +17,11 @@
     <div class="col s8 m6 card">
         <div class="card-title center-align">{{user_profile.username}}</div>
         <div class="card-content">
-            <div class="center-align">{{posts.count}} Posts</div>
+            {% if posts.count == 1 %}
+                <div class="center-align">{{posts.count}} Post</div>
+            {% else %}
+                <div class="center-align">{{posts.count}} Posts</div>
+            {% endif %}
             <!-- <div class="col s3">XX followers</div>
             <div class="col s3">XX Following</div> -->
         </div>
