@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import UserManager
-from .models import PostForm
+from .models import PostForm, PhotoForm
 
 import uuid
 import boto3
@@ -44,7 +44,6 @@ def posts_detail(request, post_id):
   comment_form = CommentForm()
   return render(request, 'posts/detail.html', { 'post': post, 'comment_form': comment_form })
 
-
 @login_required
 def add_photo(request, post_id):
     photo_file = request.FILES.get('photo-file', None)
@@ -67,6 +66,7 @@ def delete_photo(request, post_id, photo_id):
    return redirect('detail', post_id=post_id)
 
 
+@login_required
 def signup(request):
   error_message = ''
   if request.method == 'POST':
@@ -115,8 +115,12 @@ def posts_create(request):
     if form.is_valid():
       post = form.save(commit=False)
       post.user = request.user
+      newPost = form.save()
+      print(f"newPost: {newPost}")
+      print(f"request.files {request.FILES}")
+      add_photo(request, newPost.id)
       form.save()
-      return redirect('home')
+      return redirect('detail', post_id=newPost.id)
     else:
       error_message = 'Invalid new post'
   form = PostForm()

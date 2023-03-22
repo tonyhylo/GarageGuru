@@ -41,9 +41,6 @@ class PostForm(forms.ModelForm):
         model = Post 
         fields = ["description"]
 
-
-
-
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -51,6 +48,10 @@ class Photo(models.Model):
     def __str__(self):
         return f"Photo for post_id: {self.post_id} @{self.url}"
 
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ["url"]
 
 class Comment(models.Model):
     comment = models.TextField(max_length=10000)
