@@ -16,7 +16,6 @@
  </div>
    
 
-<!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -123,4 +122,6 @@ From Project Planning, problems we aimed to tackle, to proposed features, find t
 - <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github Logo" width="24" height="20"> [Github](https://github.com/arjonkotte) - Arjon Kotte </br>
 - <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github Logo" width="24" height="20"> [Github](https://github.com/saadchow) - Saad Chowdhury </br>
 - <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github Logo" width="24" height="20"> [Github](https://github.com/tonyhylo) - Tony Lo </br>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
