@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-    <style media="screen">
+    <!-- <style>
         *,
         *:before,
         *:after {
@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: black;
+            background-color: skyblue;
         }
 
 
@@ -38,8 +38,8 @@
             border-radius: 50%;
         }
 
-        form {
-            height: 520px;
+        #loginform {
+            height: 420px;
             width: 400px;
             background-color: rgba(255, 255, 255, 0.13);
             position: absolute;
@@ -53,7 +53,7 @@
             padding: 50px 35px;
         }
 
-        form * {
+        #loginform * {
             font-family: 'Poppins', sans-serif;
             color: #ffffff;
             letter-spacing: 0.5px;
@@ -61,11 +61,12 @@
             border: none;
         }
 
-        form h3 {
-            font-size: 32px;
+        #loginform h1 {
+            font-size: 42px;
             font-weight: 500;
             line-height: 42px;
             text-align: center;
+            margin-top: -15px;
         }
 
         label {
@@ -91,45 +92,18 @@
             color: #e5e5e5;
         }
 
-        button {
-            margin-top: 50px;
+        #loginbutton {
+            margin-top: 60px;
             width: 100%;
             background-color: #ffffff;
             color: #080710;
-            padding: 15px 0;
+            padding: 1px 0;
             font-size: 18px;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .social {
-            margin-top: 30px;
-            display: flex;
-        }
-
-        .social div {
-            background: red;
-            width: 150px;
-            border-radius: 3px;
-            padding: 5px 10px 10px 5px;
-            background-color: rgba(255, 255, 255, 0.27);
-            color: #eaf0fb;
-            text-align: center;
-        }
-
-        .social div:hover {
-            background-color: rgba(255, 255, 255, 0.47);
-        }
-
-        .social .fb {
-            margin-left: 25px;
-        }
-
-        .social i {
-            margin-right: 4px;
-        }
-    </style>
+    </style> -->
 </head>
 
 
@@ -137,32 +111,15 @@
     <div class="background">
     </div>
 
-    <form action="{% url 'login' %}" method="post">
-        <h3>GarageGuru</h3>
-        <div></div>
+    <form id="loginform" action="{% url 'login' %}" method="post">
+        <h1>GarageGuru</h1>
         {% csrf_token %}
         {{ form.as_p }}
 
-
-        <button class="btn" type="submit">Log In</button>
-        <div class="social">
-            <div class="go"><i class="fab fa-google"></i>Google</a></div>
-            <div class="fb"><i class="fab fa-instagram"></i> Instagram</div>
-        </div>
+        <button id="loginbutton" class="btn" type="submit">Log In</button>
         <input type="hidden" name="next" value="{{ next }}">
     </form>
 
 </body>
-
-<!-- 
-<h1>Log In</h1>
-
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-</form> -->
-
 
 {% endblock %}

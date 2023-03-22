@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- 
+
 <head>
-    <title>GarageGuru:Sign Up</title>
+    <title>GarageGuru:Login</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
-    <style media="screen">
+    <!-- <style>
         *,
         *:before,
         *:after {
@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: black;
+            background-color: skyblue;
         }
 
 
@@ -31,15 +31,8 @@
             top: 50%;
         }
 
-        .background .shape {
-            height: 200px;
-            width: 200px;
-            position: absolute;
-            border-radius: 50%;
-        }
-
-        form {
-            height: 870px;
+        #signupform {
+            height: 720px;
             width: 400px;
             background-color: rgba(255, 255, 255, 0.13);
             position: absolute;
@@ -53,7 +46,7 @@
             padding: 50px 35px;
         }
 
-        form * {
+        #signupform * {
             font-family: 'Poppins', sans-serif;
             color: #ffffff;
             letter-spacing: 0.5px;
@@ -61,12 +54,22 @@
             border: none;
         }
 
-        form h3 {
+        #signupform h1 {
+            font-size: 42px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+            margin-top: -25px;
+        }
+
+        #signupform h3 {
             font-size: 32px;
             font-weight: 500;
             line-height: 42px;
             text-align: center;
         }
+
+        
 
         label {
             display: block;
@@ -87,92 +90,32 @@
             font-weight: 300;
         }
 
+
         ::placeholder {
             color: #e5e5e5;
         }
 
-        button {
-            margin-top: 50px;
+        #signupbutton {
+            margin-top: 40px;
             width: 100%;
             background-color: #ffffff;
             color: #080710;
-            padding: 15px 0;
+            padding: 1px 0;
             font-size: 18px;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .social {
-            margin-top: 30px;
-            display: flex;
-        }
-
-        .social div {
-            background: red;
-            width: 150px;
-            border-radius: 3px;
-            padding: 5px 10px 10px 5px;
-            background-color: rgba(255, 255, 255, 0.27);
-            color: #eaf0fb;
-            text-align: center;
-        }
-
-        .social div:hover {
-            background-color: rgba(255, 255, 255, 0.47);
-        }
-
-        .social .fb {
-            margin-left: 25px;
-        }
-
-        .social i {
-            margin-right: 4px;
-        }
-    </style>
+    </style> -->
 </head>
-
-
-<body>
-    <div class="background">
-    </div>
-
-    <form action="{% url 'signup' %}" method="post">
-       
-        <div></div>
-        {% csrf_token %}
-        {{ form.as_p }}
-
-
-        <button class="btn" type="submit">Register</button>
-        <div class="social">
-            <div class="go"><i class="fab fa-google"></i>Google</a></div>
-            <div class="fb"><i class="fab fa-instagram"></i> Instagram</div>
-        </div>
-       
-    </form>
-
-</body> -->
-
-<!-- 
-<h1>Log In</h1>
-
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-</form> -->
-
-<h1>Sign Up</h1>
 
 {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
 
-<form method="post" action="{% url 'signup' %}">
+<form id="signupform" method="post" action="{% url 'signup' %}">
+    <h1>Sign Up</h1>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn" value="signup">
 </form>
-
 
 {% endblock %}
