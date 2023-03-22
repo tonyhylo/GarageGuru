@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from django.contrib import messages as django_messages
-from django.shortcuts import render, redirect
 from .models import Message
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse
@@ -35,7 +33,12 @@ def messages(request):
 def profile(request, user_id):
   posts = Post.objects.filter(user=user_id)
   user_profile = User.objects.filter(id = user_id).values()[0]
-  bio = UserDescription.objects.filter(user_id=user_id).values()[0]
+  if UserDescription.objects.filter(user_id=user_id).exists():
+    bio = UserDescription.objects.filter(user_id=user_id).values()[0]
+  else:
+    bio = {
+      "description": 'No User Bio'
+    }
   return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio})
 
 
