@@ -125,6 +125,7 @@ def signup(request):
 #   post = post_form.save()
 #   return render(request, "home.html", {'post' : post_id})
 
+@login_required
 def posts_create(request):
   error_message = ''
   if request.method == 'POST':
@@ -146,7 +147,7 @@ def posts_create(request):
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
   model = Post
-  fields = '__all__'
+  fields = ['description']
   success_url = '/'
 
 class PostDelete(LoginRequiredMixin, DeleteView):
