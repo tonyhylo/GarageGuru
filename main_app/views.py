@@ -8,7 +8,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import UserManager
+from .models import PostForm, PhotoForm
 
 import uuid
 import boto3
@@ -37,7 +38,7 @@ def profile(request, user_id):
     bio = UserDescription.objects.filter(user_id=user_id).values()[0]
   else:
     bio = {
-      description: 'No User Bio'
+      "description": 'No User Bio'
     }
   return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio})
 
@@ -47,7 +48,6 @@ def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
   comment_form = CommentForm()
   return render(request, 'posts/detail.html', { 'post': post, 'comment_form': comment_form })
-
 
 @login_required
 def add_photo(request, post_id):
@@ -71,6 +71,7 @@ def delete_photo(request, post_id, photo_id):
    return redirect('detail', post_id=post_id)
 
 
+@login_required
 def search_by_hashtag(request, hashtag):
     posts = Post.objects.filter(description__icontains=f'#{hashtag}')
 
@@ -100,21 +101,45 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-class PostCreate(LoginRequiredMixin, CreateView):
-  model = Post
-  fields = ['description']
-  success_url = '/'
+# class PostCreate(LoginRequiredMixin, CreateView):
+#   model = Post
+#   fields = ['description']
+#   success_url = '/'
 
-  def __str__(self):
-    return self.name
+#   def __str__(self):
+#     return self.name
   
-  def form_valid(self, form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
+#   def form_valid(self, form):
+#     form.instance.user = self.request.user
+#     return super().form_valid(form)
     
-  def get_absolute_url(self):
-    return reverse('detail', kwargs={'post_id': self.id})
+#   def get_absolute_url(self):
+#     return reverse('detail', kwargs={'post_id': self.id})
 
+# def posts_create(request, post_id):
+#   post_id = Post.objects.get(id=post_id)
+#   post_form = forms.PostForm(request.POST)
+#   post = post_form.save()
+#   return render(request, "home.html", {'post' : post_id})
+
+def posts_create(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = PostForm(request.POST)
+    if form.is_valid():
+      post = form.save(commit=False)
+      post.user = request.user
+      newPost = form.save()
+      print(f"newPost: {newPost}")
+      print(f"request.files {request.FILES}")
+      add_photo(request, newPost.id)
+      form.save()
+      return redirect('detail', post_id=newPost.id)
+    else:
+      error_message = 'Invalid new post'
+  form = PostForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'posts/create.html', context)
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
   model = Post
