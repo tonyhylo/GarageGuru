@@ -48,12 +48,6 @@ A project built by enthusiastic developers who felt that users needed a **dedica
 GarageGuru is an app to **post, share, and discover** cars amongst likeminded individuals. There is **no clutter, no distractions**. See only the content you enjoy and want to see!
 
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 ### Built With 🔧:
 
 GarageGuru was built using the following technologies:
@@ -66,7 +60,6 @@ GarageGuru was built using the following technologies:
 - <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt= "JavaScript Logo" width= "24" height= "24"> - JavaScript
 - <img src="https://assets.twrd.nl/heroku.png" alt="Heroku Logo" width="62" height="24"> - Heroku
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -97,6 +90,7 @@ GarageGuru was built using the following technologies:
 <img width="760" height="460" src="https://i.imgur.com/Rgbq7LA.png">
  </p>
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Getting Started 🌱:
