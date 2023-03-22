@@ -81,7 +81,7 @@ GarageGuru was built using the following technologies:
 <h3> Edit User Post </h3>
 
 <p align="center">
-<img width="760" height="460" src="https://i.imgur.com/BC779ZB.png">
+<img width="760" height="460" src="https://i.imgur.com/5YWc0q3.png">
  </p>
 
 <h3> Search for Posts by Other Enthusiasts </h3>
