@@ -47,6 +47,7 @@ class Photo(models.Model):
 class Comment(models.Model):
     comment = models.TextField(max_length=10000)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Like(models.Model):
