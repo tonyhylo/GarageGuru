@@ -55,7 +55,8 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  background-color: #2C70B4;
 }
 
 .nav-wrapper ul li a {
@@ -86,4 +87,12 @@ a {
 
 .profile-photo {
   max-width: 100%;
+}
+
+#logo {
+  height: 64px;
+}
+
+.page-footer {
+  background-color: #2C70B4;
 }
