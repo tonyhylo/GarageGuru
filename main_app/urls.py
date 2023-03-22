@@ -25,4 +25,5 @@ urlpatterns = [
     path('profile/<int:user_id>/photo', views.user_photo_update, name='user_photo_update'),
     path('posts/<int:post_id>/likes', views.likes_detail, name='likes_detail'),
     path('send_message/', views.send_message, name='send_message'),   
+    path('search/<str:hashtag>/', views.search_by_hashtag, name='search_by_hashtag'),
 ]
