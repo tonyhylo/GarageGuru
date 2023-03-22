@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from datetime import date
 from django.contrib.auth.models import User
+from django import forms
 
 class UserDescription(models.Model):
     description = models.TextField(max_length=10000, blank=True, default='No User Bio')
@@ -9,15 +10,16 @@ class UserDescription(models.Model):
 
 class UserPhoto(models.Model):
     url = models.CharField(max_length=200)
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
-        return f"Photo for post_id: {self.post_id} @{self.url}"
+        return f"Photo for user_id: {self.user_id} @{self.url}"
 
 
 
 class Post(models.Model):
     description = models.TextField(max_length=10000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def user_like_list (post_id):
         user_list = []
         idx = 0
@@ -34,7 +36,10 @@ class Post(models.Model):
             idx += 1
         return like_list
 
-
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post 
+        fields = ["description"]
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
@@ -43,10 +48,15 @@ class Photo(models.Model):
     def __str__(self):
         return f"Photo for post_id: {self.post_id} @{self.url}"
 
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ["url"]
 
 class Comment(models.Model):
     comment = models.TextField(max_length=10000)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Like(models.Model):

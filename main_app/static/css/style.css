@@ -83,3 +83,7 @@ a {
   padding: 0;
 
 }
+
+.profile-photo {
+  max-width: 100%;
+}

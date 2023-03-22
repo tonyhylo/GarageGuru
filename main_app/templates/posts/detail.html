@@ -50,7 +50,7 @@
 </form>
 {% endif %}
 
-<form action="{% url 'add_comment' post.id %}" method="post">
+<form action="{% url 'add_comment' post.id user.id%}" method="post">
   {% csrf_token %}
   {{ comment_form.as_p }}
   <input type="submit" class="btn" value="Add Comment">
@@ -64,8 +64,10 @@
 {% endif %}
 {% for comment in post.comment_set.all %}
 <div class="card">
-  <div class="card-title">Username Goes Gere</div>
-  <div class="card-content">{{comment.comment}}</div>
+  <a href="{% url 'profile' comment.user.id %}">
+  <div class="card-title">{{comment.user.username}}</div>
+  </a>
+  <div class="card-content">comment.comment</div>
   <div class="card-action">
     <a href="{% url 'comment_delete' post.id comment.id %}">Delete</a>
   </div>
