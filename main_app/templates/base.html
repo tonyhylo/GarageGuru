@@ -9,6 +9,7 @@
   <title>GarageGuru</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
@@ -18,22 +19,28 @@
         <ul>
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;GarageGuru</a></li>
         </ul>
+  
+        <form id="search-form" action="{% url 'search_by_hashtag' hashtag='placeholder' %}" method="get">
+          <input type="text" id="hashtag" name="hashtag" placeholder="Search for posts by hashtag">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+  
         <ul class="right">
-
+  
           <ul class="right">
-          <li><a href="{% url 'home' %}">Home</a></li>
-         
-          {% if user.is_authenticated %}           
+            <li><a href="{% url 'home' %}">Home</a></li>
+  
+            {% if user.is_authenticated %}
             <li><a href="{% url 'posts_create' %}">Add Post</a></li>
             <li><a href="/messages">Messages</a></li>
             <li><a href="{% url 'profile' user.id %}">Profile</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
-          {% else %}
-           <li><a href="{% url 'login' %}">Log In</a></li>
-          <li><a href="{% url 'signup' %}">Sign Up</a></li>
-          {% endif %}
+            {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
           </ul>
-
+  
         </ul>
       </div>
     </nav>
@@ -46,4 +53,16 @@
     <div class="right">All Rights Reserved, &copy; 2023 GarageGuru &nbsp;</div>
   </footer>
 </body>
+
+<script>
+  const searchForm = document.querySelector('#search-form');
+  const hashtagInput = document.querySelector('#hashtag');
+
+  hashtagInput.addEventListener('input', () => {
+    const hashtag = hashtagInput.value;
+    const actionUrl = `{% url 'search_by_hashtag' hashtag='placeholder' %}`.replace('placeholder', encodeURIComponent(hashtag));
+    searchForm.setAttribute('action', actionUrl);
+  });
+</script>
+
 </html>

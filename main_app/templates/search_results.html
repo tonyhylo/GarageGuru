@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+        {% block content %}
+            <h1>Search Results for {{ hashtag }}</h1>
+
+            {% if not posts %}
+            <p>No results found for {{ hashtag }}.</p>
+            {% else %}
+            {% for post in posts %}
+            {# Display post information here #}
+            <img src="{{ post.picture.url }}" alt="Picture">
+            <p>{{ post.description }}</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
