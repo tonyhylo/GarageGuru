@@ -1,5 +1,4 @@
 from django.contrib import messages as django_messages
-from .models import Message
 from django.shortcuts import render, redirect 
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -14,7 +13,7 @@ from .models import PostForm, PhotoForm
 import uuid
 import boto3
 
-from .models import Post, Photo, Comment, Like, User, UserDescription
+from .models import Post, Photo, Comment, Like, User, UserDescription, Message, UserPhoto
 from .forms import CommentForm
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
@@ -38,9 +37,13 @@ def profile(request, user_id):
     bio = UserDescription.objects.filter(user_id=user_id).values()[0]
   else:
     bio = {
-      "description": 'No User Bio'
+      'description': 'No User Bio'
     }
-  return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio})
+  if UserPhoto.objects.filter(user_id=user_id).exists():
+    profile_photo = UserPhoto.objects.filter(user_id=user_id).values()[0]
+  else:
+    profile_photo=[]
+  return render(request, 'profile.html', {'posts': posts, 'user_profile': user_profile, 'bio':bio, 'profile_photo':profile_photo})
 
 
 @login_required
@@ -279,4 +282,19 @@ def bio_updated(request, user_id):
     return redirect('profile', user_id=user_id)
 
 def user_photo_update(request, user_id):
-  pass
+    user_photo_file = request.FILES.get('user_photo-file', None)
+    if user_photo_file:
+        s3 = boto3.client('s3')
+        key = 'garageguru/' + uuid.uuid4().hex[:6] + user_photo_file.name[user_photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(user_photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            if UserPhoto.objects.filter(user_id=user_id).exists():
+              new_photo = UserPhoto.objects.get(user_id=user_id)
+              new_photo.url = url
+              new_photo.save()
+            else:
+              UserPhoto.objects.create(url=url, user_id=user_id)
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('profile', user_id=user_id)

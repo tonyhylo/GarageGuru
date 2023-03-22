@@ -72,4 +72,6 @@ a {
 
 }
 
-  
+.profile-photo {
+  max-width: 100%;
+}
